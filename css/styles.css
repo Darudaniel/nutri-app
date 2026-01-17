@@ -1,0 +1,169 @@
+:root{
+  --bg:#0b1220;
+  --card:#111b2e;
+  --card2:#0f182a;
+  --text:#e8eefc;
+  --muted:#a8b3cc;
+  --line:#24314d;
+  --accent:#6ea8fe;
+  --danger:#ff6b6b;
+  --warn:#ffd166;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial;
+  background:linear-gradient(180deg,var(--bg),#060a14);
+  color:var(--text);
+}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+
+.app-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding:18px 20px;
+  border-bottom:1px solid var(--line);
+  background:rgba(17,27,46,.75);
+  backdrop-filter: blur(8px);
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+.brand__title{font-weight:800; letter-spacing:.2px}
+.brand__subtitle{color:var(--muted); font-size:12px; margin-top:2px}
+
+.container{max-width:980px; margin:18px auto; padding:0 16px; display:grid; gap:16px}
+.card{
+  background:linear-gradient(180deg,var(--card),var(--card2));
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:16px;
+  box-shadow:0 10px 30px rgba(0,0,0,.35);
+}
+.card.subtle{opacity:.95}
+
+.stepper{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px}
+.step{
+  background:transparent;
+  border:1px solid var(--line);
+  color:var(--muted);
+  padding:8px 10px;
+  border-radius:999px;
+  cursor:pointer;
+  font-size:13px;
+}
+.step.is-active{
+  border-color:rgba(110,168,254,.7);
+  color:var(--text);
+  box-shadow:0 0 0 3px rgba(110,168,254,.15);
+}
+
+.panel h2{margin:6px 0 10px}
+.muted{color:var(--muted)}
+.hint{color:var(--muted); font-size:12px; margin-top:6px}
+
+.grid{display:grid; gap:12px}
+.grid--2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.grid--3{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:840px){
+  .grid--2,.grid--3{grid-template-columns:1fr}
+}
+
+.field label{display:block; font-size:13px; color:var(--text); margin-bottom:6px}
+.input{
+  width:100%;
+  border:1px solid var(--line);
+  background:#0b1324;
+  color:var(--text);
+  border-radius:12px;
+  padding:10px 12px;
+  outline:none;
+}
+.input:focus{border-color:rgba(110,168,254,.9); box-shadow:0 0 0 3px rgba(110,168,254,.15)}
+textarea.input{resize:vertical}
+
+.inline{display:flex; align-items:center; gap:10px; margin-top:8px; flex-wrap:wrap}
+
+.btn{
+  border:1px solid rgba(110,168,254,.55);
+  background:rgba(110,168,254,.18);
+  color:var(--text);
+  padding:10px 12px;
+  border-radius:12px;
+  cursor:pointer;
+}
+.btn:hover{background:rgba(110,168,254,.25)}
+.btn--ghost{
+  border:1px solid var(--line);
+  background:transparent;
+  color:var(--text);
+}
+.btn--ghost:hover{background:rgba(255,255,255,.04)}
+
+.badge{
+  font-size:12px;
+  color:var(--text);
+  border:1px solid rgba(110,168,254,.4);
+  background:rgba(110,168,254,.12);
+  padding:4px 8px;
+  border-radius:999px;
+}
+
+.result{
+  margin-top:12px;
+  border:1px dashed rgba(168,179,204,.25);
+  border-radius:14px;
+  padding:12px;
+  background:rgba(0,0,0,.12);
+}
+.result__row{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:6px 0}
+
+.mini{
+  border:1px solid rgba(168,179,204,.15);
+  border-radius:14px;
+  padding:10px;
+  background:rgba(0,0,0,.10);
+}
+.mini__row{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:6px 0; color:var(--muted)}
+.mini__row strong{color:var(--text)}
+
+.checklist{display:grid; gap:8px; margin-top:6px}
+.check{display:flex; align-items:center; gap:10px; color:var(--muted)}
+.check input{transform:scale(1.1)}
+
+.nav{display:flex; justify-content:space-between; gap:10px; margin-top:14px}
+
+.alert{
+  margin-top:12px;
+  border:1px solid rgba(255,209,102,.35);
+  background:rgba(255,209,102,.10);
+  color:var(--warn);
+  border-radius:14px;
+  padding:10px 12px;
+}
+
+hr{border:none; border-top:1px solid var(--line); margin:12px 0}
+
+/* Notes / advisories */
+.notes{display:grid; gap:10px;}
+.note{
+  padding:12px;
+  border-radius:14px;
+  border:1px solid var(--line);
+  background:rgba(0,0,0,.02);
+  color:var(--muted);
+}
+.note--warn{
+  border-color: rgba(255,209,102,.45);
+  background: rgba(255,209,102,.10);
+  color: var(--warn);
+}
+.note--danger{
+  border-color: rgba(255,107,107,.45);
+  background: rgba(255,107,107,.10);
+  color: #b42318;
+}
+.note strong{color:inherit;}

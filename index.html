@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Calculadora Nutrición (MVP)</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">
+      <div class="brand__title">Calculadora Nutrición</div>
+      <div class="brand__subtitle">MVP · Enteral con cálculo automático de mL/h y mL/día</div>
+    </div>
+    <div class="header-actions">
+      <button id="btnReset" class="btn btn--ghost" type="button">Reiniciar</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <div class="stepper" id="stepper">
+        <button class="step" data-step="1" type="button">1. MST</button>
+        <button class="step" data-step="2" type="button">2. Datos</button>
+        <button class="step" data-step="3" type="button">3. IMC</button>
+        <button class="step" data-step="4" type="button">4. GLIM</button>
+        <button class="step" data-step="5" type="button">5. Basal</button>
+        <button class="step" data-step="6" type="button">6. Enteral</button>
+        <button class="step" data-step="7" type="button">7. Resumen</button>
+      </div>
+
+      <!-- STEP 1: MST -->
+      <section class="panel" data-panel="1">
+        <h2>MST (Malnutrition Screening Tool)</h2>
+
+        <div class="grid">
+          <div class="field">
+            <label>1) ¿Ha perdido peso involuntariamente recientemente?</label>
+            <select id="mstWeightLoss" class="input">
+              <option value="no">No (0)</option>
+              <option value="unsure">No estoy seguro (2)</option>
+              <option value="yes">Sí</option>
+            </select>
+            <div id="mstKgWrap" class="inline" hidden>
+              <label for="mstKg" class="muted">¿Cuántos kg aproximadamente?</label>
+              <input id="mstKg" class="input" type="number" min="0" step="0.1" placeholder="kg" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label>2) ¿Ha comido menos de lo normal por disminución del apetito?</label>
+            <select id="mstLessIntake" class="input">
+              <option value="no">No (0)</option>
+              <option value="yes">Sí (1)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="result" id="mstResult">
+          <div class="result__row"><span>Puntaje MST</span><strong id="mstScore">0</strong></div>
+          <div class="result__row"><span>Riesgo</span><strong id="mstRisk">Sin riesgo</strong></div>
+        </div>
+      </section>
+
+      <!-- STEP 2: Datos -->
+      <section class="panel" data-panel="2" hidden>
+        <h2>Datos básicos</h2>
+
+        <div class="grid grid--3">
+          <div class="field">
+            <label for="edad">Edad (años)</label>
+            <input id="edad" class="input" type="number" min="0" step="1" placeholder="Ej: 65" />
+          </div>
+          <div class="field">
+            <label for="sexo">Sexo</label>
+            <select id="sexo" class="input">
+              <option value="M">Masculino</option>
+              <option value="F">Femenino</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="peso">Peso (kg)</label>
+            <input id="peso" class="input" type="number" min="0" step="0.1" placeholder="Ej: 70" />
+          </div>
+        </div>
+
+        <div class="grid grid--3">
+          <div class="field">
+            <label for="talla">Talla (cm)</label>
+            <input id="talla" class="input" type="number" min="0" step="0.1" placeholder="Ej: 170" />
+            <div class="inline">
+              <button id="btnUseKnee" class="btn btn--ghost" type="button">Usar altura talón-rodilla</button>
+              <span id="kneeBadge" class="badge" hidden>talla estimada</span>
+            </div>
+          </div>
+          <div class="field" id="kneeWrap" hidden>
+            <label for="rodilla">Altura rodilla (cm)</label>
+            <input id="rodilla" class="input" type="number" min="0" step="0.1" placeholder="Ej: 52" />
+            <div class="hint">Se usará la ecuación según edad y sexo.</div>
+          </div>
+        </div>
+
+        <div class="result">
+          <div class="result__row"><span>Talla usada</span><strong id="tallaUsada">—</strong></div>
+        </div>
+      </section>
+
+      <!-- STEP 3: IMC -->
+      <section class="panel" data-panel="3" hidden>
+        <h2>IMC</h2>
+        <p class="muted">Se calcula automáticamente con peso y talla.</p>
+
+        <div class="result">
+          <div class="result__row"><span>IMC</span><strong id="imc">—</strong></div>
+          <div class="result__row"><span>Categoría</span><strong id="imcCat">—</strong></div>
+        </div>
+      </section>
+
+      <!-- STEP 4: GLIM -->
+      <section class="panel" data-panel="4" hidden>
+        <h2>GLIM</h2>
+
+        <div class="grid">
+          <div class="field">
+            <label>Fenotípicos (marcar ≥1)</label>
+            <div class="checklist">
+              <label class="check"><input type="checkbox" id="glimWL" /> Pérdida de peso significativa</label>
+              <label class="check"><input type="checkbox" id="glimLowBMI" /> Bajo IMC (automático)</label>
+              <label class="check"><input type="checkbox" id="glimLowMM" /> Masa muscular reducida</label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Etiológicos (marcar ≥1)</label>
+            <div class="checklist">
+              <label class="check"><input type="checkbox" id="glimLowIntake" /> Disminución de ingesta/absorción</label>
+              <label class="check"><input type="checkbox" id="glimInflamm" /> Inflamación/enfermedad</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid--2">
+          <div class="field">
+            <label for="glimSeverity">Severidad (opcional)</label>
+            <select id="glimSeverity" class="input">
+              <option value="">Auto / No aplica</option>
+              <option value="moderada">Moderada (Etapa 1)</option>
+              <option value="severa">Severa (Etapa 2)</option>
+            </select>
+            <div class="hint">Ajuste manualmente la severidad si posee datos clinicos y ha realizado su propio diagnostico</div>
+          </div>
+          <div class="field">
+            <label class="muted">Regla</label>
+            <div class="hint">Desnutrición = (≥1 fenotípico) Y (≥1 etiológico).</div>
+          </div>
+        </div>
+
+        <div class="result">
+          <div class="result__row"><span>GLIM</span><strong id="glimDx">—</strong></div>
+          <div class="result__row"><span>Severidad</span><strong id="glimSev">—</strong></div>
+        </div>
+      </section>
+
+      <!-- STEP 5: Basal -->
+      <section class="panel" data-panel="5" hidden>
+        <h2>Requerimiento basal</h2>
+
+        <div class="grid grid--2">
+          <div class="field">
+            <label for="basalMethod">Método</label>
+            <select id="basalMethod" class="input">
+              <option value="msj">Mifflin–St Jeor</option>
+              <option value="hb">Harris–Benedict</option>
+              <option value="kcalkg">Rápido (kcal/kg/día)</option>
+            </select>
+          </div>
+          <div class="field" id="kcalKgWrap" hidden>
+            <label for="kcalKg">kcal/kg/día</label>
+            <input id="kcalKg" class="input" type="number" min="5" step="1" value="25" />
+          </div>
+        </div>
+
+        <div class="grid grid--2">
+          <div class="field">
+            <label for="factorEstres">Factor de estrés</label>
+            <input id="factorEstres" class="input" type="number" min="0.5" step="0.1" value="1.2" />
+          </div>
+          <div class="field">
+            <label class="muted">Salida</label>
+            <div class="hint">Basal (kcal/día) y Actual (kcal/día) se actualizan al cambiar datos.</div>
+          </div>
+        </div>
+
+        <div class="result">
+          <div class="result__row"><span>Basal</span><strong id="reqBasal">—</strong></div>
+          <div class="result__row"><span>Actual</span><strong id="reqActual">—</strong></div>
+        </div>
+      </section>
+
+      <!-- STEP 6: Enteral -->
+      <section class="panel" data-panel="6" hidden>
+        <h2>Nutrición enteral</h2>
+        <p class="muted">Elige una fórmula. La app calcula automáticamente el volumen para cubrir el requerimiento actual.</p>
+
+        <div class="grid grid--2">
+          <div class="field">
+            <label for="formulaSelect">Fórmula</label>
+            <select id="formulaSelect" class="input"></select>
+            <div class="hint">MVP: lista simple (sin buscador). Luego se puede agregar filtro/búsqueda.</div>
+          </div>
+          <div class="field">
+            <label class="muted">Ficha</label>
+            <div class="mini" id="formulaCard">
+              <div class="mini__row"><span>Densidad</span><strong id="fDens">—</strong></div>
+              <div class="mini__row"><span>Osmolaridad</span><strong id="fOsm">—</strong></div>
+              <div class="mini__row"><span>Tipo</span><strong id="fTipo">—</strong></div>
+              <div class="mini__row"><span>Laboratorio</span><strong id="fLab">—</strong></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="result">
+          <div class="result__row"><span>Velocidad (mL/h)</span><strong id="mlh">—</strong></div>
+          <div class="result__row"><span>Volumen (mL/día)</span><strong id="mld">—</strong></div>
+          <div class="result__row"><span>kcal/día (real)</span><strong id="kcalReal">—</strong></div>
+          <div class="result__row"><span>% cobertura (real)</span><strong id="covPct">—</strong></div>
+        </div>
+
+        <div class="grid">
+          <div class="field">
+            <label class="muted">Macros diarios (reales)</label>
+            <div class="mini">
+              <div class="mini__row"><span>Proteína (g/d · kcal/d)</span><strong><span id="pG">—</span> · <span id="pK">—</span></strong></div>
+              <div class="mini__row"><span>CHO (g/d · kcal/d)</span><strong><span id="cG">—</span> · <span id="cK">—</span></strong></div>
+              <div class="mini__row"><span>Grasa (g/d · kcal/d)</span><strong><span id="gG">—</span> · <span id="gK">—</span></strong></div>
+              <div class="mini__row"><span>Fibra (g/d)</span><strong id="fG">—</strong></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="alert" id="enteralAlert" hidden></div>
+      </section>
+
+      <!-- STEP 7: Resumen -->
+      <section class="panel" data-panel="7" hidden>
+        <h2>Resumen</h2>
+        <div class="result" id="summary"></div>
+        <div class="inline">
+          <button id="btnCopy" class="btn" type="button">Copiar resumen</button>
+          <span id="copyOk" class="muted" hidden>Copiado ✅</span>
+        </div>
+      </section>
+
+      <footer class="nav">
+        <button id="btnPrev" class="btn btn--ghost" type="button">Atrás</button>
+        <button id="btnNext" class="btn" type="button">Siguiente</button>
+      </footer>
+    </section>
+
+    <section class="card subtle">
+      <h3>Notas y advertencias</h3>
+      <div id="globalNotes" class="notes">
+        <div class="note">Selecciona una fórmula para ver recomendaciones (p. ej., osmolaridad, densidad y tolerancia).</div>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/formulas-data.js"></script>
+  <script src="js/formulas-utils.js"></script>
+  <script src="js/calc.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
