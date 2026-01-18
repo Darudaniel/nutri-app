@@ -32,8 +32,8 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
   top:0;
   z-index:10;
 }
-.brand__title{font-weight:800; letter-spacing:.2px}
-.brand__subtitle{color:var(--muted); font-size:12px; margin-top:2px}
+.brand__title{font-weight:800; letter-spacing:.2px; font-size:22px}
+.brand__subtitle{color:var(--muted); font-size:18px; margin-top:2px}
 
 .container{max-width:980px; margin:18px auto; padding:0 16px; display:grid; gap:16px}
 .card{
@@ -53,7 +53,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
   padding:8px 10px;
   border-radius:999px;
   cursor:pointer;
-  font-size:13px;
+  font-size:18px;
 }
 .step.is-active{
   border-color:rgba(110,168,254,.7);
@@ -61,23 +61,24 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
   box-shadow:0 0 0 3px rgba(110,168,254,.15);
 }
 
-.panel h2{margin:6px 0 10px}
+.panel h2{margin:28px 0 20px}
 .muted{color:var(--muted)}
-.hint{color:var(--muted); font-size:12px; margin-top:6px}
+.hint{color:var(--muted); font-size:18px; margin-top:6px}
 
-.grid{display:grid; gap:12px}
+.grid{display:grid; gap:28px}
 .grid--2{grid-template-columns:repeat(2,minmax(0,1fr))}
 .grid--3{grid-template-columns:repeat(3,minmax(0,1fr))}
 @media (max-width:840px){
   .grid--2,.grid--3{grid-template-columns:1fr}
 }
 
-.field label{display:block; font-size:13px; color:var(--text); margin-bottom:6px}
+.field label{display:block; font-size:20px; color:var(--text); margin-bottom:6px}
 .input{
   width:100%;
   border:1px solid var(--line);
   background:#0b1324;
   color:var(--text);
+  font-size:18px;
   border-radius:12px;
   padding:10px 12px;
   outline:none;
@@ -104,7 +105,7 @@ textarea.input{resize:vertical}
 .btn--ghost:hover{background:rgba(255,255,255,.04)}
 
 .badge{
-  font-size:12px;
+  font-size:18px;
   color:var(--text);
   border:1px solid rgba(110,168,254,.4);
   background:rgba(110,168,254,.12);
