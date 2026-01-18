@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Calculadora Nutrición (MVP)</title>
+  <title>Nutriapp</title>
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
   <header class="app-header">
     <div class="brand">
       <div class="brand__title">Calculadora Nutrición</div>
-      <div class="brand__subtitle">MVP · Enteral con cálculo automático de mL/h y mL/día</div>
+      <div class="brand__subtitle">Calcula con precisión y eficiencia los requerimientos nutricionales del paciente</div>
     </div>
     <div class="header-actions">
       <button id="btnReset" class="btn btn--ghost" type="button">Reiniciar</button>
@@ -200,7 +200,7 @@
       <!-- STEP 6: Enteral -->
       <section class="panel" data-panel="6" hidden>
         <h2>Nutrición enteral</h2>
-        <p class="muted">Elige una fórmula. La app calcula automáticamente el volumen para cubrir el requerimiento actual.</p>
+        <p class="muted">Elige una fórmula y ajusta la cobertura calórica.</p>
 
         <div class="grid grid--2">
           <div class="field">
@@ -215,6 +215,22 @@
               <div class="mini__row"><span>Osmolaridad</span><strong id="fOsm">—</strong></div>
               <div class="mini__row"><span>Tipo</span><strong id="fTipo">—</strong></div>
               <div class="mini__row"><span>Laboratorio</span><strong id="fLab">—</strong></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card subtle">
+          <h3>Cobertura calórica</h3>
+          <div class="grid grid--2">
+            <div class="field">
+              <label for="covSlider">Ajuste por volumen clínico</label>
+              <input id="covSlider" type="range" min="0" max="200" step="1" value="80" />
+              <div class="hint">Al mover la barra, el % se ajusta automáticamente a un volumen (mL/h) entero.</div>
+            </div>
+            <div class="field">
+              <label for="covInput">Cobertura (%)</label>
+              <input id="covInput" class="input" type="number" min="0" max="200" step="0.1" value="80" />
+              <div class="hint">Si escribes el %, puede resultar en volúmenes no enteros.</div>
             </div>
           </div>
         </div>
